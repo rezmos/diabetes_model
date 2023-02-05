@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -56,7 +57,7 @@ print(df_diabetes[p_var_cat].nunique())
 # 'pioglitazone', 'rosiglitazone', 'acarbose', 'miglitol', 'troglitazone', 'tolazamide',
 # 'examide', 'citoglipton','insulin', 'glyburide-metformin', 'glipizide-metformin', 'glimepiride-pioglitazone',
 # 'metformin-rosiglitazone', 'metformin-pioglitazone',
-var_cat = [ 'race', 'gender',  'change', 'diabetesMed', 'readmitted', 'num_procedures',
+var_cat = [ 'race', 'gender', 'diabetesMed', 'readmitted', 'num_procedures',
 		 'admission_type_id']
 
 cu.distribution_by_category(var_cat,df_diabetes)
@@ -66,18 +67,24 @@ df_diabetes ['readmitted_num'] = df_diabetes['readmitted'].str.slice(0, 1)
 df_diabetes ['readmitted_num'] =  df_diabetes ['readmitted_num'].replace(['N'],0)
 df_diabetes ['readmitted_num'] =  df_diabetes ['readmitted_num'].replace(['>'],1)
 df_diabetes ['readmitted_num'] =  df_diabetes ['readmitted_num'].replace(['<'],2)
-
-#Cleaning:
-
-
-
 numeric_dtypes_corr = df_diabetes.corr()
 sns.heatmap(numeric_dtypes_corr, annot=True)
 plt.show()
 
+#Cleaning:
+
+
+df_diabetes["gender"] = df_diabetes["gender"].replace("Unknown/Invalid", np.NaN)
+df_diabetes.dropna(subset=["gender"], axis=0, inplace=True)
+
+df_diabetes["race"] = df_diabetes["race"].replace("?", np.NaN)
+df_diabetes.dropna(subset=["race"], axis=0, inplace=True)
+
+cu.distribution_by_category(var_cat,df_diabetes)
+
 #NOrmaliza?
-df_diabetes_target_prediction_variables = pd.get_dummies(df_diabetes[[ 'race', 'gender', 'diabetesMed', 'readmitted', 'num_procedures',
-		 'admission_type_id', 'readmitted_num','time_in_hospital', 'num_medications', 'num_lab_procedures', 'number_diagnoses', 'number_inpatient']])
+df_diabetes_target_prediction_variables = pd.get_dummies(df_diabetes[[ 'race', 'gender', 'diabetesMed', 'num_procedures',
+		 'admission_type_id', 'readmitted_num','time_in_hospital', 'num_medications', 'num_lab_procedures', 'number_diagnoses', 'number_inpatient', 'discharge_disposition_id']])
 print(df_diabetes_target_prediction_variables.head())
 
 x = df_diabetes_target_prediction_variables
