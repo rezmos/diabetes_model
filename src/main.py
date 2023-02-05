@@ -66,27 +66,18 @@ df_diabetes ['readmitted_num'] = df_diabetes['readmitted'].str.slice(0, 1)
 df_diabetes ['readmitted_num'] =  df_diabetes ['readmitted_num'].replace(['N'],0)
 df_diabetes ['readmitted_num'] =  df_diabetes ['readmitted_num'].replace(['>'],1)
 df_diabetes ['readmitted_num'] =  df_diabetes ['readmitted_num'].replace(['<'],2)
-df_diabetes.drop(['readmitted'],axis=1, inplace=True)
-
-numeric_dtypes_corr = df_diabetes.corr()
-sns.heatmap(numeric_dtypes_corr, annot=True)
-plt.show()
-
-g = sns.catplot(x="race", y="readmitted_num", hue="gender", col="age", data=df_diabetes, kind="bar",palette='pink')
-g.set_xlabels("race")
-g.set_ylabels("readmitted")
-plt.show()
-
 
 #Cleaning:
 
 
 
-
+numeric_dtypes_corr = df_diabetes.corr()
+sns.heatmap(numeric_dtypes_corr, annot=True)
+plt.show()
 
 #NOrmaliza?
-df_diabetes_target_prediction_variables = pd.get_dummies(df_diabetes[[ 'race', 'gender',  'change', 'diabetesMed', 'readmitted', 'num_procedures',
-		 'admission_type_id', 'readmitted_num','num_lab_procedures','time_in_hospital','num_procedures', 'num_medications', 'num_lab_procedures', 'number_diagnoses']])
+df_diabetes_target_prediction_variables = pd.get_dummies(df_diabetes[[ 'race', 'gender', 'diabetesMed', 'readmitted', 'num_procedures',
+		 'admission_type_id', 'readmitted_num','time_in_hospital', 'num_medications', 'num_lab_procedures', 'number_diagnoses', 'number_inpatient']])
 print(df_diabetes_target_prediction_variables.head())
 
 x = df_diabetes_target_prediction_variables
