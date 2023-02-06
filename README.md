@@ -17,3 +17,4 @@ The analisys walks through the next steps:
  5. Evaluating Machine Learning Model
  
  Every single step, it's described in diabetes_jupyter.ipynb.
+ And the prediction of the test dataset were saved in readmitted_T_KNN_v2.cs file.
